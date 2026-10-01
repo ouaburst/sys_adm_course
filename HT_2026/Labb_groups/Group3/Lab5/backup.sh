@@ -2,7 +2,7 @@
 
 SourceDirectory=("$1")
 DestinationDirectory=("$2")
-Timestamp=$(date +%y-%m-%d_%H:%M:%S)
+Timestamp=$(date +%y-%m-%d_%s)
 Filename="backup-${Timestamp}.tar.gz"
 DestFile="$DestinationDirectory$Filename"
 
