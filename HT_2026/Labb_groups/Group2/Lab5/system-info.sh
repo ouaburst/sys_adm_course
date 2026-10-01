@@ -41,7 +41,6 @@ select_output()
 	arg1="$1"
 	if [ -z "$arg1" ]; then
 		show_system
-		show_memory
 		show_network
 	else
 		case "$arg1" in
