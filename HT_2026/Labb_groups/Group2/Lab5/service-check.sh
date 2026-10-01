@@ -1,55 +1,50 @@
 #!/bin/bash
 
-program=$1
-
-#if systemctl is-active --quiet $1; then
-#	echo -e "$1 service is running"
-#	logger -t lab5 "$1 is running and logged"
-#	exit 0
-#elif
-#	echo -e "$1 service is not running"; then
-#	systemctl restart $1 
-#	echo -e "$1 service is reseting"
-#	sleep 2
-#	systemctl is-active --quiet $1
-#
-#	logger -t lab5 "$1 has resrart and running"
-#	exit 0
-#fi
-
+service=$1
 
 
 log_message()
 {
-logger -t lab5 "$1"
+    logger -t lab5 "$1"
 }
 
 
+does_service_exist()
+{
+    local result=$(systemctl status $1 2>&1)
+    if [[ $result == *"could not be found"* ]]; then
+	echo -e "ERROR: Service $1 does not exist."
+	log_message "ERROR: Service $1 does not exist."
+	exit 1
+    fi
+}
+
 check_service()
 {
-if systemctl is-active --quiet $1; then
-	echo -e "$1 service is running"
-	log_message "$1 is running"
+    if systemctl is-active --quiet $service; then
+       	echo -e "$service service is running"
+	log_message "$service is running"
 	return 0
-else 
-	echo -e "$1 service is not running"
-	log_message "$1 is not running"
+    else 
+       	echo -e "$service service is not running"
+	log_message "$service is not running"
 	return 1
-fi
+    fi
 }
 
 restart_service()
 {
-if systemctl restart $1
-	echo -e "$1 service is restarting"
-	log_message "$1 is restarting"
+    if systemctl restart $service
+	echo -e "$service service is restarting"
+	log_message "$service is restarting"
 	sleep 2; then
-	#check if program has restart
-	check_service "$1"
-fi
+	#check if program has restarted
+	check_service "$service"
+    fi
 }
 
 
+does_service_exist "$1" 
 if ! check_service "$1"; then
 	restart_service "$1"
 fi
