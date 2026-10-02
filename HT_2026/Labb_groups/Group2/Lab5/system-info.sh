@@ -10,7 +10,7 @@ cpu_architecture=$(uname -p)
 memory_usage=$(free -h)
 disk_usage=$(df -h)
 ipv4_address=$(hostname -I)
-default_gateway=$(ip route show default)
+default_gateway=$(ip route show default) 
 dns=$(resolvectl status | grep -E "DNS Servers|DNS Domain")
 
 #Functions
@@ -76,5 +76,6 @@ print_footer()
 #Program flow
 print_header
 echo -e "Date: $datetime\n"
+echo -e "Current User: $current_user\n"
 select_output "$1"
 print_footer
